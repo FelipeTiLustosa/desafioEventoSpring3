@@ -11,8 +11,9 @@ import java.util.Objects;
 public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String descroicao;
+    private Long id;
+    @Column(columnDefinition = "TEXT")
+    private String descricao;
 
     @OneToMany(mappedBy = "categoria") // Diz que esse relacionamento é gerenciado pelo campo categoria na classe atividade
     //Ou seja, cada categoria sabe quem é a atividade associado por meio de seu próprio campo categoria.
@@ -20,27 +21,36 @@ public class Categoria {
     /*Imagine que um usuário (cliente) pode fazer vários pedidos de compra, mas
      cada pedido pertence a apenas um cliente. Aqui, orders é uma lista desses pedidos
      associados a um cliente específico.*/
+
+    /*EXPLICACAO:  anotação @OneToMany(mappedBy = "categoria") na lista atividades diz que:
+Uma categoria pode estar associada a várias atividades.
+A lista atividades em Categoria será preenchida automaticamente com todas as Atividades que
+ possuem essa categoria específica associada.
+A anotação @ManyToOne com @JoinColumn(name = "id_categoria") na classe Atividade:
+Indica que cada Atividade está associada a uma única Categoria através da chave estrangeira id_categoria.
+Ou seja, cada atividade "aponta" para a categoria a que pertence.*/
+
     public Categoria() {
     }
-    public Categoria(String descroicao, Integer id) {
-        this.descroicao = descroicao;
+    public Categoria(String descricao, Long id) {
+        this.descricao = descricao;
         this.id = id;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getDescroicao() {
-        return descroicao;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setDescroicao(String descroicao) {
-        this.descroicao = descroicao;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public List<Atividade> getAtividades() {
